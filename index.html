@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ambient Plates</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="style.css">
+<script src="$WEBAPIS/webapis/webapis.js"></script>
+</head>
+<body>
+  <main id="stage" aria-live="off">
+    <div id="slides"></div>
+    <div id="shade"></div>
+    <div id="grain"></div>
+
+    <div id="ink">
+      <div class="top"><span id="day">Sunday</span><span id="roman">22 · XI · 2026</span></div>
+      <div id="time">9:47</div>
+      <div id="when">in the evening.</div>
+      <figure id="quote"><blockquote>“In every walk with nature one receives far more than he seeks.”</blockquote><figcaption>John Muir</figcaption></figure>
+      <div id="plate"><span id="plateNo">Plate I</span><span id="plateText">Painted · Desert, last light</span></div>
+    </div>
+
+    <aside id="info" hidden>
+      <div class="info-k">Now showing</div>
+      <div id="infoTitle">—</div>
+      <div id="infoMeta">—</div>
+      <div class="keys"><span>◀ ▶ previous / next</span><span>▲ ▼ mode</span><span>OK info</span></div>
+    </aside>
+    <div id="toast" hidden></div>
+  </main>
+  <div id="themeRoot"></div>
+  <script src="painted.js"></script>
+  <script src="photos/data.js"></script>
+  <script src="sources.js"></script>
+  <script src="app.js"></script>
+  <script src="themes/anime.js"></script>
+  <script src="themes/comic.js"></script>
+  <script src="themes/cyber.js"></script>
+  <script src="themes/cosmic.js"></script>
+  <script src="engine.js"></script>
+</body>
+</html>
