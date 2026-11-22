@@ -13,6 +13,8 @@
     set(k, v) { try { localStorage.setItem('ambient.' + k, JSON.stringify(v)); } catch (e) {} },
   };
   const ORDER = ['editorial', 'anime', 'comic', 'cyber', 'cosmic'];
+  // My Gallery (key 6) only exists where the private gallery/data.js is present; it is not part of the daily schedule.
+  if (window.GALLERY_DATA && window.GALLERY_DATA.length) ORDER.push('gallery');
   // Time-aware rotation: the hour each theme takes over.
   const SCHEDULE = [[6, 'anime'], [10, 'comic'], [16, 'editorial'], [19, 'cyber'], [23, 'cosmic']];
   const scheduled = (h) => { let t = 'cosmic'; for (const [start, n] of SCHEDULE) if (h >= start) t = n; return t; };
@@ -89,16 +91,18 @@
   })();
 
   // ---- remote keys ----
-  try { ['ColorF0Red', 'ColorF1Green', 'ColorF2Yellow', 'ColorF3Blue', '1', '2', '3', '4', '5', '0', 'Info'].forEach((k) => tizen.tvinputdevice.registerKey(k)); } catch (e) {}
+  try { ['ColorF0Red', 'ColorF1Green', 'ColorF2Yellow', 'ColorF3Blue', '1', '2', '3', '4', '5', '6', '0', 'Info'].forEach((k) => tizen.tvinputdevice.registerKey(k)); } catch (e) {}
   try { webapis.appcommon.setScreenSaver(webapis.appcommon.AppCommonScreenSaverState.SCREEN_SAVER_OFF); } catch (e) {}
   const pick = (n) => { rotate = false; store.set('rotate', false); store.set('theme', n); use(n, true); };
   document.addEventListener('keydown', (e) => {
     const k = e.keyCode;
-    if (k >= 49 && k <= 53) return pick(ORDER[k - 49]);                       // 1-5
+    if (k >= 49 && k < 49 + ORDER.length) return pick(ORDER[k - 49]);          // 1-5 (6 = My Gallery)
     if (k >= 403 && k <= 406) return pick(ORDER[k - 403 + 1]);                // red/green/yellow/blue = anime/comic/cyber/cosmic
     if (k === 48) { rotate = true; store.set('rotate', true); use(scheduled(new Date().getHours()), true); return; }   // 0 = auto
     if (name === 'editorial') return;                                         // app.js handles its own keys
-    if (k === 39 || k === 37) { const i = ORDER.indexOf(name) + (k === 39 ? 1 : -1); pick(ORDER[(i + ORDER.length) % ORDER.length]); e.preventDefault(); }
+    if (inst && inst.onKey && inst.onKey(k)) { e.preventDefault(); return; }  // the theme uses this key itself (e.g. gallery scrolling)
+    if (k === 38 || k === 40) { const i = ORDER.indexOf(name) + (k === 40 ? 1 : -1); pick(ORDER[(i + ORDER.length) % ORDER.length]); e.preventDefault(); }
+    else if (k === 39 || k === 37) { const i = ORDER.indexOf(name) + (k === 39 ? 1 : -1); pick(ORDER[(i + ORDER.length) % ORDER.length]); e.preventDefault(); }
     else if (k === 13) { call('onAction', innerWidth / 2, innerHeight / 2); e.preventDefault(); }
     else if (k === 10009) { try { tizen.application.getCurrentApplication().exit(); } catch (err) {} }
   });
