@@ -43,5 +43,11 @@
   <script src="gallery/data.js"></script>
   <script src="themes/gallery.js"></script>
   <script src="engine.js"></script>
+  <script>
+    // Offline cache (sw.js): only works when the app comes from a web address, not from a file on disk.
+    if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+      navigator.serviceWorker.register('sw.js').catch(function () {});
+    }
+  </script>
 </body>
 </html>

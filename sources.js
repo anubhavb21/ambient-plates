@@ -48,7 +48,7 @@
     lastCall = now;
     const q = {
       action: 'query', format: 'json', formatversion: '2', origin: '*',
-      prop: 'imageinfo', iiprop: 'url|size|mime|extmetadata', iiurlwidth: '3840',
+      prop: 'imageinfo', iiprop: 'url|size|mime|extmetadata', iiurlwidth: '1920',
       iiextmetadatafilter: 'Artist|LicenseShortName|LicenseUrl|ObjectName',
     };
     const isSearch = entry.kind === 'search' || /^search:/.test(entry.category);
